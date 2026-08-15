@@ -47,11 +47,11 @@ export function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
   };
 
   const categories = [
-    { name: "Mobiles & Smartphones", icon: Smartphone, href: "/categories/mobiles" },
-    { name: "Laptops & Computers", icon: Laptop, href: "/categories/laptops" },
-    { name: "Audio & Headphones", icon: Headphones, href: "/categories/audio" },
-    { name: "Cameras & Photography", icon: Camera, href: "/categories/cameras" },
-    { name: "TV & Home Appliances", icon: Tv, href: "/categories/tv" },
+    { name: "Mobiles & Smartphones", icon: Smartphone, href: "/browse?category=mobiles" },
+    { name: "Laptops & Computers", icon: Laptop, href: "/browse?category=laptops" },
+    { name: "Audio & Headphones", icon: Headphones, href: "/browse?category=audio" },
+    { name: "Cameras & Photography", icon: Camera, href: "/browse?category=cameras" },
+    { name: "TV & Home Appliances", icon: Tv, href: "/browse?category=tv" },
   ];
 
   return (
@@ -158,7 +158,7 @@ export function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard/wishlist" onClick={onClose} className="flex items-center gap-3 px-6 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                  <Link href="/browse" onClick={onClose} className="flex items-center gap-3 px-6 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                     <Heart className="h-5 w-5" /> Your Wishlist
                   </Link>
                 </li>
