@@ -68,11 +68,13 @@ export default function LoginPage() {
         // If loginWithGoogle still fails for any reason, log in locally
         tokenStorage.set("google-local-session", "google-local-session");
       }
-      window.location.href = "/browse";
+      const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
+      window.location.href = redirectUrl;
     } catch (err: unknown) {
       // Even final fallback — just redirect, don't show error
       console.error("Google auth error:", err);
-      window.location.href = "/browse";
+      const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
+      window.location.href = redirectUrl;
     } finally {
       setIsGoogleLoading(false);
     }
@@ -107,7 +109,8 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await login(email, password);
-      window.location.href = "/browse";
+      const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
+      window.location.href = redirectUrl;
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     } finally {

@@ -53,7 +53,7 @@ export default function SellPage() {
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      router.push("/login");
+      router.push("/login?redirect=/sell");
     }
   }, [isAuthenticated, authLoading, router]);
 
