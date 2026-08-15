@@ -112,7 +112,6 @@ export default function LoginPage() {
   };
 
   const fillDemo = (role: "seller" | "buyer" | "admin") => {
-    setTab("email");
     if (role === "admin") {
       setEmail("admin@reloqa.app");
       setPassword("admin1234");
