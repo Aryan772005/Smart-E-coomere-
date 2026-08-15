@@ -131,42 +131,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const loginWithGoogle = useCallback(async (gData: GoogleLoginData) => {
-    try {
-      // Try backend first
-      const res = await fetch(apiUrl("/api/v1/auth/google/"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(gData),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        tokenStorage.set(data.access, data.refresh);
-        setState({ user: mapRawUser(data.user), isLoading: false, isAuthenticated: true });
-        return;
-      }
-    } catch {
-      // Backend unavailable — fall through to local session
+    const res = await fetch(apiUrl("/api/v1/auth/google/"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(gData),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err?.detail || "Google sign-in failed. Please try again.");
     }
-    // Fallback: create a local guest session from Google profile data
-    const localUser: User = {
-      id: 0,
-      email: gData.email,
-      phone: "",
-      firstName: gData.name.split(" ")[0] || "User",
-      lastName: gData.name.split(" ").slice(1).join(" ") || "",
-      avatar: gData.avatar || null,
-      role: "buyer",
-      status: "active",
-      isEmailVerified: true,
-      isPhoneVerified: false,
-      bio: "",
-      rating: 5,
-      reviewCount: 0,
-      completedOrders: 0,
-      createdAt: new Date().toISOString(),
-    };
-    tokenStorage.set("google-local-session", "google-local-session");
-    setState({ user: localUser, isLoading: false, isAuthenticated: true });
+    const data = await res.json();
+    tokenStorage.set(data.access, data.refresh);
+    setState({ user: mapRawUser(data.user), isLoading: false, isAuthenticated: true });
   }, []);
 
   const sendOtp = useCallback(async (phone: string) => {

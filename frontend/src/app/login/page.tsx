@@ -58,23 +58,19 @@ export default function LoginPage() {
     setError("");
     try {
       const payload = parseJwt(response.credential);
-      const email = payload?.email || `google_${Date.now()}@gmail.com`;
-      const name = payload?.name || payload?.given_name || "Google User";
-      const avatar = payload?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=f59e0b&color=fff`;
-
-      try {
-        await loginWithGoogle({ email, name, avatar });
-      } catch {
-        // If loginWithGoogle still fails for any reason, log in locally
-        tokenStorage.set("google-local-session", "google-local-session");
+      if (!payload?.email) {
+        setError("Could not read your Google account details. Please try again.");
+        return;
       }
+      await loginWithGoogle({
+        email: payload.email,
+        name: payload.name || payload.given_name || "Google User",
+        avatar: payload.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(payload.name || "User")}&background=f59e0b&color=fff`,
+      });
       const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
       window.location.href = redirectUrl;
     } catch (err: unknown) {
-      // Even final fallback — just redirect, don't show error
-      console.error("Google auth error:", err);
-      const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
-      window.location.href = redirectUrl;
+      setError("Google sign-in failed. The backend server may be starting up — please wait 30 seconds and try again.");
     } finally {
       setIsGoogleLoading(false);
     }
