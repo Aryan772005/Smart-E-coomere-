@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+ENV/
+
+# Django
+*.log
+staticfiles/
+media/
+db.sqlite3
+db.sqlite3-journal
+test_db.sqlite3
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/

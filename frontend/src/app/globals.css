@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Amazon/E-commerce Design Tokens */
+    --background: 255 255 255;
+    --foreground: 15 17 17;
+    
+    /* Primary Brand Colors */
+    --brand: 33 98 161; /* #2162a1 */
+    --brand-foreground: 255 255 255;
+    --brand-soft: 235 244 252;
+    
+    /* Surface & Text */
+    --surface: 255 255 255;
+    --surface-dark: 0 0 0;
+    --card: 255 255 255;
+    --card-foreground: 15 17 17;
+    
+    --text-primary: 33 98 161; /* #2162a1 */
+    --text-secondary: 15 17 17; /* #0f1111 */
+    --text-tertiary: 221 221 221; /* #dddddd */
+    --text-inverse: 214 214 214; /* #d6d6d6 */
+
+    --muted: 247 247 247;
+    --muted-foreground: 86 89 89;
+    --border: 221 221 221;
+    --input: 221 221 221;
+    --ring: 33 98 161;
+    
+    --accent: 254 189 105; /* Amazon Gold/Yellow Accent */
+    --accent-foreground: 15 17 17;
+
+    --success: 7 125 50;
+    --success-foreground: 255 255 255;
+    --warning: 177 39 4;
+    --warning-foreground: 255 255 255;
+    --danger: 204 12 57;
+    --danger-foreground: 255 255 255;
+    
+    --radius: 4px;
+    --font-sans: "Amazon Ember", Arial, sans-serif;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    font-size: 13px; /* font.size.base=13px */
+    line-height: 19px; /* font.lineHeight.base=19px */
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgb(var(--brand) / 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand));
+    outline-offset: 2px;
+  }
+
+  img,
+  svg {
+    @apply select-none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .shadow-amazon-1 {
+    box-shadow: rgb(136, 136, 136) 0px 1px 3px 0px;
+  }
+
+  .shadow-amazon-2 {
+    box-shadow: rgba(0, 0, 0, 0.18) 1px 0px 2px 0px;
+  }
+
+  .shadow-amazon-3 {
+    box-shadow: rgba(0, 0, 0, 0.18) -1px 0px 2px 0px;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+}
