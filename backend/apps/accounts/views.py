@@ -79,11 +79,12 @@ class GoogleAuthView(APIView):
                 }
             )
         except Exception as e:
-            if isinstance(e, serializers.ValidationError):
+            from rest_framework.exceptions import ValidationError
+            if isinstance(e, ValidationError):
                 raise e
             import traceback
             error_trace = traceback.format_exc()
-            return Response({"detail": f"Backend Error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": f"Backend Error: {str(e)}", "trace": error_trace}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OTPSendView(APIView):
