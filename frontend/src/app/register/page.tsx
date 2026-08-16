@@ -146,7 +146,7 @@ export default function RegisterPage() {
         className="w-full max-w-md"
       >
         <div className="mb-8 text-center">
-          <Logo className="justify-center" />
+          <Logo size="xl" className="justify-center" />
           <h1 className="mt-6 text-2xl font-extrabold text-foreground">Create your account</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Already have an account?{" "}

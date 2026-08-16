@@ -140,7 +140,7 @@ export function Navbar() {
 
           {/* Logo */}
           <div className="shrink-0">
-            <Logo />
+            <Logo size="lg" />
           </div>
 
           {/* Delivery Location (Desktop) */}

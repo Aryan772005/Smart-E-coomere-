@@ -201,7 +201,7 @@ export default function LoginPage() {
           className="w-full max-w-sm"
         >
           <div className="mb-8">
-            <Logo />
+            <Logo size="xl" />
             <h2 className="mt-6 text-2xl font-extrabold text-foreground">Sign in to your account</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
