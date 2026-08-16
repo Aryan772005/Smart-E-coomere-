@@ -94,6 +94,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            "id",
+            "slug",
             "title",
             "description",
             "price",
@@ -106,6 +108,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             "year",
             "city",
         ]
+        read_only_fields = ["id", "slug"]
 
     def validate_category_id(self, value):
         try:
