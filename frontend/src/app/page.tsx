@@ -541,21 +541,21 @@ export default function HomePage() {
 
       {/* Recent User Uploads Section */}
       {recentUploads.length > 0 && (
-        <section className="border-t border-slate-200 bg-slate-50 py-16 dark:bg-slate-900 dark:border-slate-800">
+        <section className="border-t border-yellow-300 bg-yellow-400 py-16 dark:bg-yellow-500 dark:border-yellow-600">
           <div className="container-page">
             <div className="mb-8 flex items-end justify-between">
               <div>
-                <span className="text-[11px] font-black uppercase tracking-widest text-brand">Newly Listed</span>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+                <span className="text-[11px] font-black uppercase tracking-widest text-slate-800">Newly Listed</span>
+                <h2 className="mt-2 text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-900">
                   Sell Uploaded Items
                 </h2>
-                <p className="mt-1 text-sm text-slate-500 font-medium">
+                <p className="mt-1 text-sm text-slate-800 font-medium">
                   Latest 2nd hand electronics uploaded by our verified community
                 </p>
               </div>
               <Link
                 href="/browse"
-                className="hidden items-center gap-1.5 text-sm font-bold text-brand hover:underline sm:flex"
+                className="hidden items-center gap-1.5 text-sm font-bold text-slate-900 hover:underline sm:flex"
               >
                 View all uploads <ArrowRight className="h-4 w-4" />
               </Link>
@@ -570,7 +570,7 @@ export default function HomePage() {
             <div className="mt-8 text-center sm:hidden">
               <Link
                 href="/browse"
-                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-200 px-6 py-2.5 text-sm font-bold text-slate-900 transition-colors hover:bg-slate-300 dark:bg-slate-800 dark:text-white"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-900 px-6 py-2.5 text-sm font-bold text-white transition-colors hover:bg-slate-800"
               >
                 View all uploads <ArrowRight className="h-4 w-4" />
               </Link>
