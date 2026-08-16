@@ -60,7 +60,8 @@ export default function OrdersPage() {
         
         if (res.ok) {
           const data = await res.json();
-          setOrders(data);
+          // DRF uses pagination, so the array is in data.results
+          setOrders(data.results || data);
         } else {
           console.error("Failed to fetch orders");
         }
