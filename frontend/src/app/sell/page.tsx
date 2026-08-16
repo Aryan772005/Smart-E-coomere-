@@ -192,6 +192,16 @@ export default function SellPage() {
       setSuccess(true);
       setTimeout(() => router.push(`/products/${data.slug}`), 2000);
     } catch (err: unknown) {
+      if (err && typeof err === "object" && "payload" in err) {
+        const payload = (err as any).payload;
+        if (payload?.errors && Array.isArray(payload.errors) && payload.errors.length > 0) {
+          const detailedMsg = payload.errors.map((e: any) => `${e.field || "Error"}: ${e.message}`).join(" | ");
+          setError(detailedMsg);
+          setUploadProgress("");
+          setIsSubmitting(false);
+          return;
+        }
+      }
       setError(err instanceof Error ? err.message : "Something went wrong.");
       setUploadProgress("");
     } finally {
