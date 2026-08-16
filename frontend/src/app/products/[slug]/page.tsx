@@ -107,6 +107,31 @@ export default function ProductDetailPage() {
       } catch {
         // Fallback product data if API is offline or returns error
         const titleFromSlug = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        const lowerTitle = titleFromSlug.toLowerCase();
+        
+        let primaryImage = "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80"; // Default iPhone
+        let secondaryImage = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80";
+        
+        if (lowerTitle.includes("playstation") || lowerTitle.includes("ps5") || lowerTitle.includes("xbox")) {
+          primaryImage = "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&auto=format&fit=crop&q=80";
+          secondaryImage = "https://images.unsplash.com/photo-1605901309584-818e25960b8f?w=800&auto=format&fit=crop&q=80";
+        } else if (lowerTitle.includes("macbook") || lowerTitle.includes("laptop")) {
+          primaryImage = "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=80";
+          secondaryImage = "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&auto=format&fit=crop&q=80";
+        } else if (lowerTitle.includes("watch")) {
+          primaryImage = "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop&q=80";
+          secondaryImage = "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800&auto=format&fit=crop&q=80";
+        } else if (lowerTitle.includes("airpods") || lowerTitle.includes("headphones") || lowerTitle.includes("audio")) {
+          primaryImage = "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80";
+          secondaryImage = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80";
+        } else if (lowerTitle.includes("camera") || lowerTitle.includes("canon") || lowerTitle.includes("lens")) {
+          primaryImage = "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80";
+          secondaryImage = "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&auto=format&fit=crop&q=80";
+        } else if (lowerTitle.includes("ipad") || lowerTitle.includes("tablet")) {
+          primaryImage = "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&auto=format&fit=crop&q=80";
+          secondaryImage = "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=800&auto=format&fit=crop&q=80";
+        }
+
         setProduct({
           id: 999,
           slug,
@@ -122,8 +147,8 @@ export default function ProductDetailPage() {
           model: titleFromSlug,
           year: 2023,
           images: [
-            { id: 1, url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80", alt: titleFromSlug, is_primary: true },
-            { id: 2, url: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=80", alt: "Side view", is_primary: false },
+            { id: 1, url: primaryImage, alt: titleFromSlug, is_primary: true },
+            { id: 2, url: secondaryImage, alt: "Alternative view", is_primary: false },
           ],
           seller: {
             id: 1,
