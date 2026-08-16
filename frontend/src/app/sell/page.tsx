@@ -160,7 +160,7 @@ export default function SellPage() {
         price: parseFloat(form.price),
         condition: form.condition,
         listing_type: form.listing_type,
-        category_id: parseInt(form.category_id),
+        category_id: form.category_id,
       };
       if (form.original_price) payload.original_price = parseFloat(form.original_price);
       if (form.brand) payload.brand = form.brand;
