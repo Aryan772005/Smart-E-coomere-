@@ -89,7 +89,7 @@ class ProductDetailSerializer(ProductListSerializer):
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    category_id = serializers.IntegerField()
+    category_id = serializers.UUIDField()
 
     class Meta:
         model = Product
