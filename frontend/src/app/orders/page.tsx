@@ -45,7 +45,7 @@ export default function OrdersPage() {
   useEffect(() => {
     // Basic auth check
     if (!localStorage.getItem("access_token")) {
-      router.push("/auth/login?redirect=/orders");
+      router.push("/login?redirect=/orders");
       return;
     }
 
