@@ -45,7 +45,8 @@ export default function WebAdminPage() {
     try {
       const res = await fetch(apiUrl("/api/v1/marketplace/products/"));
       const data = await res.json();
-      setProducts(data.results || data);
+      const items = data.results || data;
+      setProducts(Array.isArray(items) ? items : []);
     } catch {
       setProducts([]);
     } finally {

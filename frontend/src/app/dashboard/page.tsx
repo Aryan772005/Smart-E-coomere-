@@ -63,7 +63,10 @@ function DashboardPageContent() {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
-        .then((data) => setWishlist(data.results || data))
+        .then((data) => {
+          const items = data.results || data;
+          setWishlist(Array.isArray(items) ? items : []);
+        })
         .catch(() => setWishlist([]))
         .finally(() => setWishlistLoading(false));
     }

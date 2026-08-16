@@ -59,7 +59,10 @@ export default function SellerDashboardPage() {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
-      .then((data) => setListings(data.results || data))
+      .then((data) => {
+        const items = data.results || data;
+        setListings(Array.isArray(items) ? items : []);
+      })
       .catch(() => setListings([]))
       .finally(() => setIsLoading(false));
   }, [isAuthenticated]);

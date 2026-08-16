@@ -535,7 +535,8 @@ function BrowsePageContent() {
       const res = await fetch(apiUrl("/api/v1/marketplace/categories/"));
       if (!res.ok) throw new Error();
       const data = await res.json();
-      setCategories(data.results || data);
+      const items = data.results || data;
+      setCategories(Array.isArray(items) ? items : []);
     } catch {
       setCategories([
         { id: 1, name: "Smartphones", slug: "smartphones" },

@@ -34,8 +34,10 @@ export default function CategoriesPage() {
     async function fetchCategories() {
       try {
         const res = await fetch(apiUrl("/api/v1/marketplace/categories/"));
+        if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        setCategories(data.results || data);
+        const items = data.results || data;
+        setCategories(Array.isArray(items) ? items : []);
       } catch {
         setCategories([]);
       } finally {
