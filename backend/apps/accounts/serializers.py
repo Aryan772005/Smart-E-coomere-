@@ -60,20 +60,31 @@ class GoogleAuthSerializer(serializers.Serializer):
 
         google_sub = validated_data.get("google_sub") or None
         avatar = validated_data.get("avatar") or None
+        
+        # Safely truncate avatar to prevent DataError on unmigrated backends
+        if avatar and len(avatar) > 200:
+            avatar = avatar[:200]
 
-        # Check by email first to avoid constraint conflicts
-        user = User.objects.filter(email__iexact=email).first()
+        user = None
+        if google_sub:
+            user = User.objects.filter(google_sub=google_sub).first()
+            
+        if not user:
+            user = User.objects.filter(email__iexact=email).first()
 
         if not user:
-            user = User.objects.create(
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                avatar=avatar,
-                google_sub=google_sub,
-                is_email_verified=True,
-                role="buyer",
-            )
+            try:
+                user = User.objects.create(
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    avatar=avatar,
+                    google_sub=google_sub,
+                    is_email_verified=True,
+                    role="buyer",
+                )
+            except Exception as e:
+                raise serializers.ValidationError({"detail": "Could not create user account. Email or Google ID might already be in use."})
         else:
             # Update missing avatar or sub if available
             fields_to_update = []
@@ -84,7 +95,10 @@ class GoogleAuthSerializer(serializers.Serializer):
                 user.google_sub = google_sub
                 fields_to_update.append("google_sub")
             if fields_to_update:
-                user.save(update_fields=fields_to_update)
+                try:
+                    user.save(update_fields=fields_to_update)
+                except Exception:
+                    pass
 
         return user
 

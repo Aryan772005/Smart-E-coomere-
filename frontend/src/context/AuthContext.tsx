@@ -138,8 +138,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify(gData),
     });
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err?.detail || "Google sign-in failed. Please try again.");
+      const err = await res.json().catch(() => null);
+      if (!err) throw new Error("Backend server returned an invalid response. Migrations might be missing.");
+      
+      const errorMessage = err.detail || err.non_field_errors?.[0] || Object.entries(err).map(([k, v]) => `${k}: ${v}`).join(", ");
+      throw new Error(errorMessage || "Google sign-in failed. Please try again.");
     }
     const data = await res.json();
     tokenStorage.set(data.access, data.refresh);
