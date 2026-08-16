@@ -406,10 +406,10 @@ export function Navbar() {
               </Link>
             ))}
 
-            <span className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">Today&apos;s Deals</span>
-            <div className="relative group shrink-0">
-              <span className="text-sm text-gray-300 font-semibold hover:text-white cursor-pointer py-2">Customer Service</span>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-72 rounded-2xl bg-white p-5 shadow-2xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 translate-y-2 group-hover:translate-y-0">
+            <Link href="/browse" className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">Today&apos;s Deals</Link>
+            <div className="relative group shrink-0" tabIndex={0}>
+              <span className="text-sm text-gray-300 font-semibold group-hover:text-white group-focus:text-white cursor-pointer py-2">Customer Service</span>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-72 rounded-2xl bg-white p-5 shadow-2xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus:opacity-100 group-focus:visible transition-all duration-200 z-50 translate-y-2 group-hover:translate-y-0 group-focus:translate-y-0">
                 <div className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-4">Tariani Support Desk</div>
                 <p className="text-xs text-slate-500 font-medium mb-4 leading-relaxed">
                   Need help with an order or product? Our verified experts are available from 9 AM to 9 PM IST.
@@ -436,7 +436,7 @@ export function Navbar() {
                 </div>
               </div>
             </div>
-            <span className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">Gift Cards</span>
+            <Link href="/browse" className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">Gift Cards</Link>
 
             {/* Mobile location pill */}
             <button
