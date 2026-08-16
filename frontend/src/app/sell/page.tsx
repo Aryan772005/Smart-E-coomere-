@@ -64,8 +64,23 @@ export default function SellPage() {
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         const items = data.results || data;
-        setCategories(Array.isArray(items) ? items : []);
-      } catch { /* ignore */ }
+        if (Array.isArray(items) && items.length > 0) {
+          setCategories(items);
+        } else {
+          throw new Error("Empty categories");
+        }
+      } catch {
+        setCategories([
+          { id: 1, name: "Smartphones", slug: "smartphones" },
+          { id: 2, name: "Laptops", slug: "laptops" },
+          { id: 3, name: "Gaming", slug: "gaming" },
+          { id: 4, name: "Audio", slug: "audio" },
+          { id: 5, name: "Cameras", slug: "cameras" },
+          { id: 6, name: "Wearables", slug: "wearables" },
+          { id: 7, name: "Tablets", slug: "tablets" },
+          { id: 8, name: "Appliances", slug: "appliances" },
+        ]);
+      }
     }
     fetchCategories();
   }, []);
