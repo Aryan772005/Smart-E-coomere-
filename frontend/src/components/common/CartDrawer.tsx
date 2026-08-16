@@ -318,7 +318,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
                       <Button
                         fullWidth
                         size="lg"
-                        onClick={() => alert("Proceeding to Singh Sellers Escrow Checkout...")}
+                        onClick={() => {
+                          closeCart();
+                          window.location.href = "/checkout";
+                        }}
                         rightIcon={<ArrowRight className="h-4 w-4" />}
                       >
                         Proceed to Checkout (Escrow Safe)
