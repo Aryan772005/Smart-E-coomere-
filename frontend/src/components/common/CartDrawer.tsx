@@ -1,5 +1,5 @@
 "use client";
-import { useState, createContext, useContext, type ReactNode } from "react";
+import { useState, useEffect, createContext, useContext, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag,
@@ -43,21 +43,45 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      slug: "refurbished-apple-iphone-14-128gb-blue",
-      title: "Refurbished Apple iPhone 14 (128GB - Blue)",
-      price: 42999,
-      original_price: 69900,
-      image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=400&auto=format&fit=crop&q=80",
-      condition: "like-new",
-      quantity: 1,
-    },
-  ]);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [discountApplied, setDiscountApplied] = useState(false);
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem("tariani_cart");
+      if (savedCart) {
+        setItems(JSON.parse(savedCart));
+      } else {
+        // Default initial item if nothing is saved
+        setItems([
+          {
+            id: 1,
+            slug: "refurbished-apple-iphone-14-128gb-blue",
+            title: "Refurbished Apple iPhone 14 (128GB - Blue)",
+            price: 42999,
+            original_price: 69900,
+            image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=400&auto=format&fit=crop&q=80",
+            condition: "like-new",
+            quantity: 1,
+          }
+        ]);
+      }
+    } catch (e) {
+      console.error("Failed to load cart", e);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save cart to localStorage whenever items change
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("tariani_cart", JSON.stringify(items));
+    }
+  }, [items, isLoaded]);
 
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
