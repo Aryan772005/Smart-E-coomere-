@@ -11,9 +11,11 @@ from apps.marketplace.models import Product, Category, ProductImage, ProductCond
 from apps.accounts.models import User
 
 def generate_unique_products():
-    print("Clearing existing products & setting up categories...")
-    Product.all_objects.all().delete()
-    print("Deleted all existing products.")
+    if Product.all_objects.exists():
+        print("Products already exist. Skipping seed.")
+        return
+
+    print("Setting up categories and seeding products...")
 
     # Ensure categories exist
     CATEGORIES_DATA = [
