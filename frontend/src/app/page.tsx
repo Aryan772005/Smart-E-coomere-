@@ -37,7 +37,7 @@ const BRAND_TILES = [
   { name: "SONY", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/sony.svg", query: "Sony" },
   { name: "DELL", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/dell.svg", query: "Dell" },
   { name: "ASUS", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/asus.svg", query: "Asus" },
-  { name: "CANON", logo: "https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/canon.svg", query: "Canon" },
+  { name: "CANON", logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjEwIiB5PSIzNSIgZm9udC1mYW1pbHk9InNlcmlmIiBmb250LXNpemU9IjQwIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iY3VycmVudENvbG9yIj5DYW5vbjwvdGV4dD48L3N2Zz4=", query: "Canon" },
 ];
 
 const FEATURED_CATEGORIES = [
