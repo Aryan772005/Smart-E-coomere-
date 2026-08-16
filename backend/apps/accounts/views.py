@@ -66,17 +66,24 @@ class GoogleAuthView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        serializer = GoogleAuthSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        refresh = RefreshToken.for_user(user)
-        return Response(
-            {
-                "user": UserSerializer(user).data,
-                "access": str(refresh.access_token),
-                "refresh": str(refresh),
-            }
-        )
+        try:
+            serializer = GoogleAuthSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            return Response(
+                {
+                    "user": UserSerializer(user).data,
+                    "access": str(refresh.access_token),
+                    "refresh": str(refresh),
+                }
+            )
+        except Exception as e:
+            if isinstance(e, serializers.ValidationError):
+                raise e
+            import traceback
+            error_trace = traceback.format_exc()
+            return Response({"detail": f"Backend Error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OTPSendView(APIView):
