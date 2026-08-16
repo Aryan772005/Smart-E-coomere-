@@ -39,7 +39,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [gsiLoaded, setGsiLoaded] = useState(false);
 
-  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "695087699343-b34ut1o3j5lbt756clee9mu3p2p3062d.apps.googleusercontent.com";
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "695087699343-uejm1kie4jdf6kspi25t1803m7nhft5j.apps.googleusercontent.com";
 
   // Initialize official Google Sign-In SDK
   useEffect(() => {
