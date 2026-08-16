@@ -141,8 +141,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const err = await res.json().catch(() => null);
       if (!err) throw new Error("Backend server returned an invalid response. Migrations might be missing.");
       
-      const errorMessage = err.detail || err.non_field_errors?.[0] || Object.entries(err).map(([k, v]) => `${k}: ${v}`).join(", ");
-      throw new Error(errorMessage || "Google sign-in failed. Please try again.");
+      let errorMessage = err.detail || err.non_field_errors?.[0];
+      if (!errorMessage && err.message && err.message !== "An unexpected error occurred. Please try again.") {
+        errorMessage = err.message;
+      }
+      if (!errorMessage) {
+        // Try to get the first validation error if any
+        const firstKey = Object.keys(err).find(k => k !== "code" && k !== "message" && k !== "fieldErrors" && k !== "errors");
+        if (firstKey && Array.isArray(err[firstKey])) {
+           errorMessage = err[firstKey][0];
+        }
+      }
+      throw new Error(errorMessage || "Google sign-in failed due to a server error. The backend may still be deploying.");
     }
     const data = await res.json();
     tokenStorage.set(data.access, data.refresh);

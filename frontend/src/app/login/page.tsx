@@ -62,10 +62,15 @@ export default function LoginPage() {
         setError("Could not read your Google account details. Please try again.");
         return;
       }
+      let avatarUrl = payload.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(payload.name || "User")}&background=f59e0b&color=fff`;
+      if (avatarUrl.length > 200) {
+        avatarUrl = undefined;
+      }
+      
       await loginWithGoogle({
         email: payload.email,
         name: payload.name || payload.given_name || "Google User",
-        avatar: payload.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(payload.name || "User")}&background=f59e0b&color=fff`,
+        avatar: avatarUrl,
         google_sub: payload.sub,
       });
       const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
