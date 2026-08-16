@@ -26,6 +26,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/common/Navbar";
 import { FlashSaleCountdown } from "@/components/common/FlashSaleCountdown";
+import { MarqueeBanner } from "@/components/common/MarqueeBanner";
+import { ProductCard, type Product } from "@/components/common/ProductCard";
+import { apiUrl } from "@/config/env";
 
 // Official Nike.com Style Brand Icons
 const BRAND_TILES = [
@@ -91,6 +94,17 @@ export default function HomePage() {
   const [mediaModalOpen, setMediaModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const modalVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  const [recentUploads, setRecentUploads] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetch(apiUrl("/api/v1/marketplace/products/?page_size=4&ordering=-created_at"))
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.results) setRecentUploads(data.results);
+      })
+      .catch((err) => console.error("Error fetching recent uploads", err));
+  }, []);
 
   // Play/pause video whenever slide or muted state changes
   useEffect(() => {
@@ -414,6 +428,7 @@ export default function HomePage() {
             </div>
             <FlashSaleCountdown />
           </div>
+          <MarqueeBanner />
 
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 flex flex-wrap items-center justify-between gap-6 shadow-sm">
             <div className="flex items-center gap-4">
@@ -468,61 +483,101 @@ export default function HomePage() {
       </section>
 
       {/* Nike Style Featured Category Grid */}
-      <section className="py-16 bg-white">
+      <section className="bg-slate-900 py-16 dark:bg-background border-y border-white/5">
         <div className="container-page">
-          <div className="mb-10 flex items-end justify-between">
+          <div className="mb-10 flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div>
-              <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">THE LATEST & GREATEST</span>
-              <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-black mt-1">
-                POPULAR CATEGORIES
+              <span className="text-[11px] font-black uppercase tracking-widest text-brand">Explore Categories</span>
+              <h2 className="mt-2 text-3xl font-black uppercase tracking-tight text-white sm:text-4xl">
+                Trending Pre-Owned
               </h2>
             </div>
             <Link
               href="/categories"
-              className="text-xs font-black uppercase tracking-widest text-black hover:underline flex items-center gap-1"
+              className="group flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-white hover:text-black"
             >
-              View All <ChevronRight className="h-4 w-4" />
+              All Categories
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURED_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.title}
-                href={`/browse?category=${cat.categorySlug}`}
-                className="group relative block overflow-hidden rounded-3xl bg-slate-100 shadow-sm transition-all duration-300 hover:shadow-2xl"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
+            {FEATURED_CATEGORIES.map((cat, idx) => (
+              <Link key={cat.title} href={`/browse?category=${cat.categorySlug}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="group relative overflow-hidden rounded-3xl aspect-[4/3] bg-slate-950 border border-white/10 shadow-2xl transition-all duration-300"
+                >
                   <img
                     src={cat.image}
                     alt={cat.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-100"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  {/* Premium Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
                   
-                  {/* Tag */}
-                  <div className="absolute top-4 left-4 rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black">
-                    {cat.tag}
-                  </div>
+                  {/* Subtle Top Glare */}
+                  <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
 
-                  {/* Nike Style Title Card */}
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <h3 className="text-xl font-black uppercase tracking-tight leading-none group-hover:text-amber-400 transition-colors">
+                  <div className="absolute inset-0 flex flex-col justify-end p-6">
+                    <span className="mb-2 w-max rounded-full bg-brand px-3 py-1 text-[10px] font-black tracking-widest text-brand-foreground shadow-lg backdrop-blur-md">
+                      {cat.tag}
+                    </span>
+                    <h3 className="text-2xl font-black uppercase tracking-tight text-white group-hover:text-brand transition-colors">
                       {cat.title}
                     </h3>
-                    <p className="mt-1 text-xs text-slate-300 font-medium">
-                      {cat.subtitle}
-                    </p>
-                    <div className="mt-4 inline-flex items-center gap-1 rounded-full bg-white px-5 py-2 text-[11px] font-black uppercase tracking-wider text-black group-hover:bg-amber-400 transition-colors">
-                      Shop Now <ArrowRight className="h-3.5 w-3.5" />
-                    </div>
+                    <p className="mt-1 text-sm font-semibold text-slate-300">{cat.subtitle}</p>
                   </div>
-                </div>
+                </motion.div>
               </Link>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Recent User Uploads Section */}
+      {recentUploads.length > 0 && (
+        <section className="border-t border-slate-200 bg-slate-50 py-16 dark:bg-slate-900 dark:border-slate-800">
+          <div className="container-page">
+            <div className="mb-8 flex items-end justify-between">
+              <div>
+                <span className="text-[11px] font-black uppercase tracking-widest text-brand">Newly Listed</span>
+                <h2 className="mt-2 text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+                  Sell Uploaded Items
+                </h2>
+                <p className="mt-1 text-sm text-slate-500 font-medium">
+                  Latest 2nd hand electronics uploaded by our verified community
+                </p>
+              </div>
+              <Link
+                href="/browse"
+                className="hidden items-center gap-1.5 text-sm font-bold text-brand hover:underline sm:flex"
+              >
+                View all uploads <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {recentUploads.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+            
+            <div className="mt-8 text-center sm:hidden">
+              <Link
+                href="/browse"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-200 px-6 py-2.5 text-sm font-bold text-slate-900 transition-colors hover:bg-slate-300 dark:bg-slate-800 dark:text-white"
+              >
+                View all uploads <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* We Deliver Across India — Map Section */}
       <section className="bg-[#0b132b] py-16 text-white overflow-hidden border-t border-blue-900/30">

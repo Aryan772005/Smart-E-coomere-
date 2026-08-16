@@ -75,11 +75,27 @@ export default function ProductDetailPage() {
   const [wishlisted, setWishlisted] = useState(false);
 
   // Amazon/Flipkart Delivery Pincode Checker
-  const [inputPincode, setInputPincode] = useState("400001");
-  const [deliveryResult, setDeliveryResult] = useState<{ date: string; cod: boolean } | null>({
-    date: "Tomorrow by 5 PM",
-    cod: true,
-  });
+  const [inputPincode, setInputPincode] = useState("");
+  const [deliveryResult, setDeliveryResult] = useState<{ date: string; cod: boolean } | null>(null);
+  const [liveViewers, setLiveViewers] = useState(0);
+
+  // Fluctuating live viewers effect
+  useEffect(() => {
+    // Initial random number between 12 and 45
+    setLiveViewers(Math.floor(Math.random() * (45 - 12 + 1)) + 12);
+
+    const interval = setInterval(() => {
+      setLiveViewers((prev) => {
+        const change = Math.random() > 0.5 ? 1 : -1;
+        const next = prev + change;
+        return next < 5 ? 5 : next > 99 ? 99 : next;
+      });
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const [activeTab, setActiveTab] = useState("specifications");
 
   const handleCheckPincode = (e: React.FormEvent) => {
     e.preventDefault();
@@ -392,6 +408,15 @@ export default function ProductDetailPage() {
                   Save {formatPrice(product.original_price! - product.price)}
                 </span>
               )}
+            </div>
+
+            {/* Live Viewers Badge */}
+            <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
+              </span>
+              <span className="text-rose-600 dark:text-rose-400 font-bold">{liveViewers} people</span> are looking at this right now
             </div>
 
             {/* Flipkart Bank Offers & EMI Box */}

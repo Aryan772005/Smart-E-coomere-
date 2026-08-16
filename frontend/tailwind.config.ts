@@ -65,6 +65,8 @@ const config: Config = {
         "scale-in": "scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
         shimmer: "shimmer 1.6s linear infinite",
         "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
+        marquee: "marquee 40s linear infinite",
+        marquee2: "marquee2 40s linear infinite",
       },
       keyframes: {
         "fade-in": {
@@ -86,6 +88,14 @@ const config: Config = {
         "pulse-soft": {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.55" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        marquee2: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0%)" },
         },
       },
       transitionTimingFunction: {

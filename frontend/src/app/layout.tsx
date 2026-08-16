@@ -44,6 +44,7 @@ export const viewport: Viewport = {
 };
 
 import { Footer } from "@/components/common/Footer";
+import { LiveActivityToast } from "@/components/common/LiveActivityToast";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   <main className="flex-1">{children}</main>
                   <Footer />
                 </div>
+                <LiveActivityToast />
               </CartProvider>
             </AuthProvider>
           </ToastProvider>
