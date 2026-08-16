@@ -7,7 +7,7 @@ import { Navbar } from "@/components/common/Navbar";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
 import { apiUrl } from "@/config/env";
-import { tokenStorage } from "@/services/http";
+import { http } from "@/services/http";
 
 interface Category { id: number; name: string; slug: string; }
 
@@ -153,8 +153,6 @@ export default function SellPage() {
 
     setIsSubmitting(true);
     try {
-      const token = tokenStorage.getAccess();
-
       // Step 1: Create the product listing
       const payload: Record<string, unknown> = {
         title: form.title,
@@ -172,33 +170,7 @@ export default function SellPage() {
 
       setUploadProgress("Creating listing...");
 
-      const res = await fetch(apiUrl("/api/v1/marketplace/products/"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        let msg = "Failed to create listing.";
-        if (err.errors && Array.isArray(err.errors)) {
-          msg = err.errors.map((e: any) => `${e.field || 'Error'}: ${e.message || JSON.stringify(e)}`).join(" | ");
-        } else if (err.detail) {
-          msg = err.detail;
-        } else {
-          try {
-            msg = Object.values(err).map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(", ");
-          } catch {
-            msg = "Failed to create listing.";
-          }
-        }
-        throw new Error(msg);
-      }
-
-      const data = await res.json();
+      const data = await http.post<{ slug: string }>("/api/v1/marketplace/products/", payload);
 
       // Step 2: Upload images if any
       if (selectedImages.length > 0) {
@@ -209,17 +181,10 @@ export default function SellPage() {
           formData.append("images", file);
         });
 
-        const imgRes = await fetch(apiUrl(`/api/v1/marketplace/products/${data.slug}/images/`), {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-
-        if (!imgRes.ok) {
-          // Product created but images failed — still proceed
-          console.warn("Image upload failed, but product was created.");
+        try {
+          await http.post(`/api/v1/marketplace/products/${data.slug}/images/`, formData, { isFormData: true });
+        } catch (imgErr) {
+          console.warn("Image upload failed, but product was created.", imgErr);
         }
       }
 
