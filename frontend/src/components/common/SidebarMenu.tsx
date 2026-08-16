@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -17,6 +17,9 @@ import {
   Headphones,
   Camera,
   Tv,
+  Phone,
+  Mail,
+  ChevronDown,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/utils/cn";
@@ -28,6 +31,7 @@ interface SidebarMenuProps {
 
 export function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
   const { user, isAuthenticated, logout } = useAuth();
+  const [showSupport, setShowSupport] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -163,9 +167,44 @@ export function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
                   </Link>
                 </li>
                 <li>
-                  <button className="flex w-full items-center gap-3 px-6 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground text-left">
-                    <HelpCircle className="h-5 w-5" /> Customer Service
+                  <button onClick={() => setShowSupport(!showSupport)} className="flex w-full items-center justify-between px-6 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground text-left">
+                    <div className="flex items-center gap-3">
+                      <HelpCircle className="h-5 w-5" /> Customer Service
+                    </div>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${showSupport ? "rotate-180" : ""}`} />
                   </button>
+                  <AnimatePresence>
+                    {showSupport && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden bg-slate-50 dark:bg-slate-900"
+                      >
+                        <div className="px-14 py-3 space-y-3">
+                          <p className="text-xs text-muted-foreground mb-3">Our verified experts are available from 9 AM to 9 PM IST.</p>
+                          <a href="https://wa.me/919475002048" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
+                            <div className="p-1.5 bg-emerald-100 rounded-full text-emerald-600">
+                              <Phone className="h-3 w-3" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-bold text-foreground">WhatsApp Chat</div>
+                              <div className="text-[10px] text-emerald-600">+91 9475002048</div>
+                            </div>
+                          </a>
+                          <a href="mailto:aryansinghtariani@gmail.com" className="flex items-center gap-3">
+                            <div className="p-1.5 bg-amber-100 rounded-full text-amber-600">
+                              <Mail className="h-3 w-3" />
+                            </div>
+                            <div className="overflow-hidden">
+                              <div className="text-xs font-bold text-foreground">Email Support</div>
+                              <div className="text-[10px] text-amber-600 truncate max-w-[150px]">aryansinghtariani@gmail.com</div>
+                            </div>
+                          </a>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </li>
                 {isAuthenticated && (
                   <li>

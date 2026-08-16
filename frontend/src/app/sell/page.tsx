@@ -117,7 +117,9 @@ export default function SellPage() {
   };
 
   const removeImage = (index: number) => {
-    URL.revokeObjectURL(imagePreviews[index]);
+    if (imagePreviews[index]) {
+      URL.revokeObjectURL(imagePreviews[index]);
+    }
     setSelectedImages((prev) => prev.filter((_, i) => i !== index));
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
