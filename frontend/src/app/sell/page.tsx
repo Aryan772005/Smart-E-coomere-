@@ -183,8 +183,19 @@ export default function SellPage() {
 
       if (!res.ok) {
         const err = await res.json();
-        const msg = Object.values(err).flat().join(", ") as string;
-        throw new Error(msg || "Failed to create listing.");
+        let msg = "Failed to create listing.";
+        if (err.errors && Array.isArray(err.errors)) {
+          msg = err.errors.map((e: any) => `${e.field || 'Error'}: ${e.message || JSON.stringify(e)}`).join(" | ");
+        } else if (err.detail) {
+          msg = err.detail;
+        } else {
+          try {
+            msg = Object.values(err).map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(", ");
+          } catch {
+            msg = "Failed to create listing.";
+          }
+        }
+        throw new Error(msg);
       }
 
       const data = await res.json();
