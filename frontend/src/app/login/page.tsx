@@ -66,11 +66,12 @@ export default function LoginPage() {
         email: payload.email,
         name: payload.name || payload.given_name || "Google User",
         avatar: payload.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(payload.name || "User")}&background=f59e0b&color=fff`,
+        google_sub: payload.sub,
       });
       const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/browse";
       window.location.href = redirectUrl;
     } catch (err: unknown) {
-      setError("Google sign-in failed. The backend server may be starting up — please wait 30 seconds and try again.");
+      setError(err instanceof Error ? err.message : "Google sign-in failed. The backend server may be starting up — please wait 30 seconds and try again.");
     } finally {
       setIsGoogleLoading(false);
     }

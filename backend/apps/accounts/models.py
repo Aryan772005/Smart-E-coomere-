@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     phone = models.CharField(max_length=20, blank=True, null=True, db_index=True)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64, blank=True, default="")
-    avatar = models.URLField(blank=True, null=True)
+    avatar = models.URLField(max_length=1024, blank=True, null=True)
     bio = models.TextField(max_length=500, blank=True, default="")
 
     role = models.CharField(max_length=10, choices=UserRole.choices, default=UserRole.BUYER, db_index=True)

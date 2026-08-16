@@ -21,6 +21,7 @@ interface GoogleLoginData {
   email: string;
   name: string;
   avatar?: string;
+  google_sub?: string;
 }
 
 interface AuthContextValue extends AuthState {
