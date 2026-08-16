@@ -48,7 +48,7 @@ export default function CheckoutPage() {
     setIsProcessing(true);
     
     try {
-      const token = localStorage.getItem("access_token"); // Or however auth token is retrieved
+      const token = localStorage.getItem("reloqa_access_token"); // Or however auth token is retrieved
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
       };

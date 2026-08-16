@@ -44,7 +44,8 @@ export default function OrdersPage() {
 
   useEffect(() => {
     // Basic auth check
-    if (!localStorage.getItem("access_token")) {
+    const token = localStorage.getItem("reloqa_access_token");
+    if (!token) {
       router.push("/login?redirect=/orders");
       return;
     }
@@ -53,7 +54,7 @@ export default function OrdersPage() {
       try {
         const res = await fetch("https://reloqa-backend.onrender.com/api/v1/orders/", {
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+            "Authorization": `Bearer ${token}`
           }
         });
         
