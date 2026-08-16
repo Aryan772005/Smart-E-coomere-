@@ -22,7 +22,7 @@ import Link from "next/link";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, totalPrice, rawTotal = 0, discountAmount = 0 } = useCart();
+  const { items, totalPrice, rawTotal = 0, discountAmount = 0, clearCart } = useCart();
   
   const [step, setStep] = useState<"address" | "payment">("address");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -44,13 +44,54 @@ export default function CheckoutPage() {
     setStep("payment");
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     setIsProcessing(true);
-    // Simulate API call for payment processing
-    setTimeout(() => {
-      setIsProcessing(false);
+    
+    try {
+      const token = localStorage.getItem("access_token"); // Or however auth token is retrieved
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      
+      const payload = {
+        full_name: address.fullName,
+        phone: address.phone,
+        address_line_1: address.addressLine1,
+        city: address.city,
+        state: address.state,
+        pincode: address.pincode,
+        payment_method: paymentMethod,
+        items: items.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity
+        }))
+      };
+
+      const res = await fetch("https://reloqa-backend.onrender.com/api/v1/orders/", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(payload)
+      });
+      
+      if (!res.ok) {
+        throw new Error("Failed to place order");
+      }
+      
+      // Clear cart
+      clearCart();
+      localStorage.removeItem("tariani_cart");
+      
       setIsSuccess(true);
-    }, 2500);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong while placing the order. Are you logged in?");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (items.length === 0 && !isSuccess) {

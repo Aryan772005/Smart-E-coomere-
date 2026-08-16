@@ -12,6 +12,7 @@ import {
   HelpCircle,
   LogOut,
   ChevronRight,
+  Package,
   Smartphone,
   Laptop,
   Headphones,
@@ -119,6 +120,33 @@ export function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
               {/* Trending Categories */}
               <div className="px-6 pb-2 pt-2 text-lg font-bold text-foreground">Trending Categories</div>
               <ul className="mb-4">
+                {isAuthenticated && (
+                  <li className="px-6 space-y-2 mb-4">
+                    <Link
+                      href="/dashboard"
+                      onClick={onClose}
+                      className="flex items-center justify-between rounded-xl p-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Store className="h-5 w-5 text-slate-400" />
+                        <span>My Dashboard</span>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                    </Link>
+                    
+                    <Link
+                      href="/orders"
+                      onClick={onClose}
+                      className="flex items-center justify-between rounded-xl p-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Package className="h-5 w-5 text-slate-400" />
+                        <span>My Orders</span>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                    </Link>
+                  </li>
+                )}
                 {categories.map((cat) => (
                   <li key={cat.name}>
                     <Link
