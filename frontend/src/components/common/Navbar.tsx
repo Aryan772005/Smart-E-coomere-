@@ -407,35 +407,9 @@ export function Navbar() {
             ))}
 
             <Link href="/browse" className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">Today&apos;s Deals</Link>
-            <div className="relative group shrink-0" tabIndex={0}>
-              <span className="text-sm text-gray-300 font-semibold group-hover:text-white group-focus:text-white cursor-pointer py-2">Customer Service</span>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-72 rounded-2xl bg-white p-5 shadow-2xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus:opacity-100 group-focus:visible transition-all duration-200 z-50 translate-y-2 group-hover:translate-y-0 group-focus:translate-y-0">
-                <div className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-4">Tariani Support Desk</div>
-                <p className="text-xs text-slate-500 font-medium mb-4 leading-relaxed">
-                  Need help with an order or product? Our verified experts are available from 9 AM to 9 PM IST.
-                </p>
-                <div className="space-y-2">
-                  <a href="https://wa.me/919475002048" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2.5 rounded-xl border border-slate-100 hover:border-emerald-200 hover:bg-emerald-50 transition-all group/link">
-                    <div className="p-2 bg-emerald-100 rounded-full text-emerald-600 group-hover/link:bg-emerald-500 group-hover/link:text-white group-hover/link:scale-110 transition-all shadow-sm">
-                      <Phone className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-slate-900 leading-tight">WhatsApp Chat</div>
-                      <div className="text-xs font-semibold text-emerald-600">+91 9475002048</div>
-                    </div>
-                  </a>
-                  <a href="mailto:aryansinghtariani@gmail.com" className="flex items-center gap-3 p-2.5 rounded-xl border border-slate-100 hover:border-amber-200 hover:bg-amber-50 transition-all group/link">
-                    <div className="p-2 bg-amber-100 rounded-full text-amber-600 group-hover/link:bg-amber-400 group-hover/link:text-slate-900 group-hover/link:scale-110 transition-all shadow-sm">
-                      <Mail className="h-4 w-4" />
-                    </div>
-                    <div className="overflow-hidden">
-                      <div className="text-sm font-bold text-slate-900 leading-tight">Email Support</div>
-                      <div className="text-xs font-semibold text-amber-600 truncate max-w-[160px]">aryansinghtariani@gmail.com</div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
+            <a href="https://wa.me/919475002048" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">
+              Customer Service
+            </a>
             <Link href="/browse" className="text-sm text-gray-300 font-semibold shrink-0 hover:text-white cursor-pointer">Gift Cards</Link>
 
             {/* Mobile location pill */}
